@@ -1,0 +1,98 @@
+{% include 'header.html' %}
+<div class="container-fluid mt-4 px-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="text-secondary fw-bold mb-0">Gestión de Reevaluaciones</h3>
+            <p class="text-muted small mb-0">Datos de Reevaluaciones de Residencia registrados en el sistema</p>
+        </div>
+        <a href="/reevaluaciones/create" class="btn btn-primary btn-lg shadow-sm d-flex align-items-center gap-2" style="border-radius: 8px;">
+            <i class="bi bi-plus-circle"></i> Nuevo Registro
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">ID</th>
+                        <th>Usuario</th>
+                        <th>Tipo Reevaluación</th>
+                        <th>Expediente</th>
+                        <th>CDP Receptora</th>
+                        <th>Fecha Envío</th>
+                        <th>Residente (Apellido, Nombre)</th>
+                        <th>DNI</th>
+                        <th>Región Sanitaria</th>
+                        <th>Sede Residencia</th>
+                        <th>Especialidad</th>
+                        <th>Nivel</th>
+                        <th>Año</th>
+                        <th>Sede Reevaluación</th>
+                        <th>Tiempo Solicitado (Meses)</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Extensión Peri-Residencia</th>
+                        <th>CDP Evaluador</th>
+                        <th>Aceptada por CDP</th>
+                        <th>Observaciones CDP</th>
+                        <th>Disposición Aprobación</th>
+                        <th>Resultado</th>
+                        <th>Observaciones Generales</th>
+                        <th class="pe-3 text-center">Acciones</th> </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for reevaluacion in reevaluaciones %}
+                    <tr>
+                        <td class="fw-bold ps-3 text-secondary">{{ reevaluacion.id }}</td>
+                        <td>{{ reevaluacion.usuario }}</td>
+                        <td>{{ reevaluacion.tipo_de_reevaluacion }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ reevaluacion.expediente }}</span></td>
+                        <td>{{ reevaluacion.nombre_cdp_que_recibe_expediente }}</td>
+                        <td>{{ reevaluacion.fecha_envio_cdp }}</td>
+                        <td class="fw-semibold text-dark">{{ reevaluacion.apellido_nombre_residente }}</td>
+                        <td>{{ reevaluacion.dni }}</td>
+                        <td>{{ reevaluacion.region_sanitaria }}</td>
+                        <td>{{ reevaluacion.sede_de_residencia }}</td>
+                        <td>{{ reevaluacion.especialidad }}</td>
+                        <td>{{ reevaluacion.nivel }}</td>
+                        <td>{{ reevaluacion.ano_residencia }}</td>
+                        <td>{{ reevaluacion.sede_reevaluacion }}</td>
+                        <td class="text-center">{{ reevaluacion.tiempo_solicitado_reevaluacion_meses }}</td>
+                        <td>{{ reevaluacion.fecha_inicio_reevaluacion }}</td>
+                        <td>{{ reevaluacion.fecha_finalizacion_reevaluacion }}</td>
+                        <td>{{ reevaluacion.incluye_extension_peri_de_residencia }}</td>
+                        <td>{{ reevaluacion.nombre_cdp_evaluador }}</td>
+                        <td>{{ reevaluacion.aceptada_por_cdp }}</td>
+                        <td><small class="text-muted">{{ reevaluacion.observaciones_cdp }}</small></td>
+                        <td>{{ reevaluacion.disposicion_de_aprobacion }}</td>
+                        <td>
+                            {% if reevaluacion.resultado_reevaluacion == 'Aprobado' or reevaluacion.resultado_reevaluacion == 'ACEPTADA' %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Aprobado</span>
+                            {% elif reevaluacion.resultado_reevaluacion == 'Rechazado' %}
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1">Rechazado</span>
+                            {% else %}
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1">{{ reevaluacion.resultado_reevaluacion }}</span>
+                            {% endif %}
+                        </td>
+                        <td><small class="text-muted">{{ reevaluacion.observaciones }}</small></td>
+                        
+                        <td class="pe-3 text-center">
+                            <div class="d-flex gap-1 justify-content-center">
+                                <a href="/modulos/reevaluaciones/edit/{{ reevaluacion.id }}" class="btn btn-sm btn-outline-success">
+                                    Editar
+                                </a>
+                                <a href="/reevaluaciones/borrar/{{ reevaluacion.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que querés eliminar este registro?');">
+                                    Borrar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% include 'footer.html' %}

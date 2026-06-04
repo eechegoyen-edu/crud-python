@@ -1,0 +1,185 @@
+{% include 'header.html' %}
+
+<div class="container mt-4 mb-5" style="max-width: 1000px;">
+    
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+        <div class="bg-warning text-dark p-3 rounded-3 me-3 shadow-sm">
+            <i class="bi bi-pencil-square fs-3"></i>
+        </div>
+        <div>
+            <h3 class="text-secondary fw-bold mb-0">Modificar Reevaluación</h3>
+            <p class="text-muted small mb-0">Editando el registro ID: <strong>{{ reevaluacion.id }}</strong> — Residente: {{ reevaluacion.apellido_nombre_residente }}</p>
+        </div>
+    </div>
+
+    <form action="/modulos/reevaluaciones/actualizar/{{ reevaluacion.id }}" method="POST">
+        
+        <input type="hidden" name="id" value="{{ reevaluacion.id }}" />
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-success text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-folder-fill me-2"></i> 1. Datos de Gestión y Envío</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Usuario Transcriptor</label>
+                        <input type="text" class="form-control" name="usuario" id="usuario" value="{{ reevaluacion.usuario }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Tipo de Reevaluación</label>
+                        <input type="text" class="form-control" name="tipo_de_reevaluacion" id="tipo_de_reevaluacion" value="{{ reevaluacion.tipo_de_reevaluacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Nro. Expediente</label>
+                        <input type="text" class="form-control" name="expediente" id="expediente" value="{{ reevaluacion.expediente }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-8">
+                     <label class="form-label fw-bold text-secondary">Nombre CDP Receptora</label>
+                     <select class="form-select" name="referente" id="referente" required style="border-radius: 8px;">
+                     <option value="" disabled>Seleccione el referente...</option>
+                     {% for cdp in cdps %}
+                     <option value="{{ cdp.referente }}" {% if cdp.referente == reevaluacion.referente %}selected{% endif %}>
+                      {{ cdp.referente }}</option>
+                     {% endfor %}
+                     </select>
+                     </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Fecha de Envío al CDP</label>
+                        <input type="date" class="form-control" name="fecha_envio_cdp" id="fecha_envio_cdp" value="{{ reevaluacion.fecha_envio_cdp }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-success text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-person-vcard-fill me-2"></i> 2. Información del Residente</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label fw-bold text-secondary">Apellido y Nombre</label>
+                        <input type="text" class="form-control" name="apellido_nombre_residente" id="apellido_nombre_residente" value="{{ reevaluacion.apellido_nombre_residente }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">DNI</label>
+                        <input type="text" class="form-control" name="dni" id="dni" value="{{ reevaluacion.dni }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-success text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-mortarboard-fill me-2"></i> 3. Estructura y Sede de Residencia</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Región Sanitaria</label>
+                        <input type="text" class="form-control" name="region_sanitaria" id="region_sanitaria" value="{{ reevaluacion.region_sanitaria }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Sede de Residencia</label>
+                        <input type="text" class="form-control" id="sede_de_residencia" name="sede_de_residencia" value="{{ reevaluacion.sede_de_residencia }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                    <label class="form-label fw-bold text-secondary">Especialidad</label>
+                    <select class="form-select" name="especialidad" id="especialidad" required style="border-radius: 8px;">
+                     <option value="" disabled>Seleccione la especialidad...</option>
+                      {% for esp in especialidades %}
+                     <option value="{{ esp[0] }}" {% if esp[0] == reevaluacion.especialidad %}selected{% endif %}>
+                     {{ esp.especialidad }} </option>
+                     {% endfor %}
+                     </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Nivel Académico</label>
+                        <input type="text" class="form-control" name="nivel" id="nivel" value="{{ reevaluacion.nivel }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Año de Residencia</label>
+                        <input type="text" class="form-control" name="ano_residencia" id="ano_residencia" value="{{ reevaluacion.ano_residencia }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Sede de Reevaluación</label>
+                        <input type="text" class="form-control" name="sede_reevaluacion" id="sede_reevaluacion" value="{{ reevaluacion.sede_reevaluacion }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-success text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-calendar3 me-2"></i> 4. Tiempos y Fechas del Proceso</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Tiempo Solicitado (Meses)</label>
+                        <input type="text" class="form-control" name="tiempo_solicitado_reevaluacion_meses" id="tiempo_solicitado_reevaluacion_meses" value="{{ reevaluacion.tiempo_solicitado_reevaluacion_meses }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Fecha Inicio</label>
+                        <input type="date" class="form-control" name="fecha_inicio_reevaluacion" id="fecha_inicio_reevaluacion" value="{{ reevaluacion.fecha_inicio_reevaluacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Fecha Finalización</label>
+                        <input type="date" class="form-control" name="fecha_finalizacion_reevaluacion" id="fecha_finalizacion_reevaluacion" value="{{ reevaluacion.fecha_finalizacion_reevaluacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">¿Incluye Extensión Peri-Residencia?</label>
+                        <input type="text" class="form-control" name="incluye_extension_peri_de_residencia" id="incluye_extension_peri_de_residencia" value="{{ reevaluacion.incluye_extension_peri_de_residencia }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Nombre CDP Evaluador</label>
+                        <input type="text" class="form-control" name="nombre_cdp_evaluador" id="nombre_cdp_evaluador" value="{{ reevaluacion.nombre_cdp_evaluador }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-success text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-clipboard-check-fill me-2"></i> 5. Dictamen Final y Observaciones</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">¿Aceptada por CDP?</label>
+                        <input type="text" class="form-control" name="aceptada_por_cdp" id="aceptada_por_cdp" value="{{ reevaluacion.aceptada_por_cdp }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Disposición de Aprobación</label>
+                        <input type="text" class="form-control" name="disposicion_de_aprobacion" id="disposicion_de_aprobacion" value="{{ reevaluacion.disposicion_de_aprobacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Resultado Reevaluación</label>
+                        <input type="text" class="form-control" name="resultado_reevaluacion" id="resultado_reevaluacion" value="{{ reevaluacion.resultado_reevaluacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Observaciones del CDP</label>
+                        <textarea class="form-control" name="observaciones_cdp" id="observaciones_cdp" rows="3" style="border-radius: 8px;">{{ reevaluacion.observaciones_cdp }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Observaciones Generales</label>
+                        <textarea class="form-control" name="observaciones" id="observaciones" rows="3" style="border-radius: 8px;">{{ reevaluacion.observaciones }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4 mb-5">
+            <a href="/reevaluaciones" class="btn btn-light px-4 border" style="border-radius: 8px;">
+                <i class="bi bi-x-circle me-1"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-warning px-5 fw-bold text-dark" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <i class="bi bi-save-fill me-1"></i> Guardar Cambios
+            </button>
+        </div>
+
+    </form>
+</div>
+
+{% include 'footer.html' %}

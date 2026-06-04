@@ -1,0 +1,209 @@
+{% include 'header.html' %}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Prórroga Nro. {{ prorroga.id }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+        }
+        .form-section-title {
+            color: #0d6efd;
+            font-weight: 600;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 8px;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4 mb-5" style="max-width: 1000px;">
+    
+    <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+        <div class="bg-warning text-dark p-3 rounded-3 me-3 shadow-sm">
+            <i class="bi bi-pencil-square fs-3"></i>
+        </div>
+        <div>
+            <h3 class="text-secondary fw-bold mb-0">Modificar Prórroga</h3>
+            <p class="text-muted small mb-0">Editando el registro ID: <strong>{{ prorroga.id }}</strong></p>
+        </div>
+    </div>
+
+    <form action="/modulos/prorrogas/actualizar/{{ prorroga.id }}" method="POST">
+        
+        <input type="hidden" name="id" value="{{ prorroga.id }}" />
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-folder-fill me-2"></i> 1. Datos de Gestión y Envío</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Usuario Transcriptor</label>
+                        <input type="text" class="form-control" name="usuario" id="usuario" value="{{ prorroga.usuario }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Tipo de Prórroga</label>
+                        <input type="text" class="form-control" name="tipo_prorroga" id="tipo_prorroga" value="{{ prorroga.tipo_prorroga }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Nro. Expediente</label>
+                        <input type="text" class="form-control" name="nro_expediente" id="nro_expediente" value="{{ prorroga.nro_expediente }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label fw-bold text-secondary">Nombre CDP Receptora</label>
+                        <select class="form-select" name="cdp_receptora" id="cdp_receptora" required style="border-radius: 8px;">
+                            <option value="" disabled>Seleccione el referente...</option>
+                            {% for cdp in cdps %}
+                                <option value="{{ cdp.referente }}" {% if cdp.referente == prorroga.cdp_receptora %}selected{% endif %}>{{ cdp.referente }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Fecha de Envío al CDP</label>
+                        <input type="date" class="form-control" name="fecha_envio_cdp" id="fecha_envio_cdp" value="{{ prorroga.fecha_envio_cdp }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-person-vcard-fill me-2"></i> 2. Información del Residente</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label class="form-label fw-bold text-secondary">Apellido y Nombre</label>
+                        <input type="text" class="form-control" name="residente_nombre" id="residente_nombre" value="{{ prorroga.residente_nombre }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">DNI</label>
+                        <input type="text" class="form-control" name="dni" id="dni" value="{{ prorroga.dni }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-mortarboard-fill me-2"></i> 3. Estructura y Sede de Residencia</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Región Sanitaria</label>
+                        <input type="text" class="form-control" name="region_sanitaria" id="region_sanitaria" value="{{ prorroga.region_sanitaria }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Sede de Residencia</label>
+                        <input type="text" class="form-control" id="sede" name="sede" value="{{ prorroga.sede }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Especialidad</label>
+                        <select class="form-select" name="especialidad" id="especialidad" required style="border-radius: 8px;">
+                            <option value="" disabled>Seleccione la especialidad...</option>
+                            {% for esp in especialidades %}
+                                <option value="{{ esp[0] }}" {% if esp[0] == prorroga.especialidad %}selected{% endif %}>{{ esp.especialidad }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Nivel Organización</label>
+                        <input type="text" class="form-control" name="nivel_organizacion" id="nivel_organizacion" value="{{ prorroga.nivel_organizacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Año de Residencia</label>
+                        <input type="text" class="form-control" name="anio_residencia" id="anio_residencia" value="{{ prorroga.anio_residencia }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-calendar3 me-2"></i> 4. Tiempos y Fechas del Proceso</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Meses Solicitados</label>
+                        <input type="text" class="form-control" name="meses_solicitados" id="meses_solicitados" value="{{ prorroga.meses_solicitados }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Fecha Inicio</label>
+                        <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="{{ prorroga.fecha_inicio }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label fw-bold text-secondary">Fecha Fin</label>
+                        <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{ prorroga.fecha_fin }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Nombre CDP Evaluadora</label>
+                        <input type="text" class="form-control" name="nombre_cdp_evaluadora" id="nombre_cdp_evaluadora" value="{{ prorroga.nombre_cdp_evaluadora }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Fecha Notificación</label>
+                        <input type="date" class="form-control" name="fecha_notificacion" id="fecha_notificacion" value="{{ prorroga.fecha_notificacion }}" style="border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
+                <h5 class="card-title mb-0"><i class="bi bi-clipboard-check-fill me-2"></i> 5. Dictamen Final y Observaciones</h5>
+            </div>
+            <div class="card-body bg-light p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">¿Avalada por CDP?</label>
+                        <input type="text" class="form-control" name="avalada_cdp" id="avalada_cdp" value="{{ prorroga.avalada_cdp }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Disposición/PV Aprobación</label>
+                        <input type="text" class="form-control" name="pv_aprobacion" id="pv_aprobacion" value="{{ prorroga.pv_aprobacion }}" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Observaciones del CDP</label>
+                        <textarea class="form-control" name="observaciones_cdp" id="observaciones_cdp" rows="3" style="border-radius: 8px;">{{ prorroga.observaciones_cdp }}</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold text-secondary">Observaciones Generales</label>
+                        <textarea class="form-control" name="observaciones" id="observaciones" rows="3" style="border-radius: 8px;">{{ prorroga.observaciones }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4 mb-5">
+            <a href="/prorrogas" class="btn btn-light px-4 border" style="border-radius: 8px;">
+                <i class="bi bi-x-circle me-1"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-warning px-5 fw-bold text-dark" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                <i class="bi bi-save-fill me-1"></i> Guardar Cambios
+            </button>
+        </div>
+
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% include 'footer.html' %}

@@ -1,0 +1,96 @@
+{% include 'header.html' %}
+<div class="container-fluid mt-4 px-4">
+    
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="text-secondary fw-bold mb-0">Gestión de Prórrogas</h3>
+            <p class="text-muted small mb-0">Datos de Prórrogas de Residencia registrados en el sistema</p>
+        </div>
+        <a href="/prorrogas/create" class="btn btn-primary btn-lg shadow-sm d-flex align-items-center gap-2" style="border-radius: 8px;">
+            <i class="bi bi-plus-circle"></i> Nuevo Registro
+        </a>
+    </div>
+
+    <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden;">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th class="ps-3">ID</th>
+                        <th>Usuario</th>
+                        <th>Tipo Prórroga</th>
+                        <th>Expediente</th>
+                        <th>CDP Receptora</th>
+                        <th>Fecha Envío CDP</th>
+                        <th>Residente (Apellido, Nombre)</th>
+                        <th>DNI</th>
+                        <th>Región Sanitaria</th>
+                        <th>Sede Residencia</th>
+                        <th>Especialidad</th>
+                        <th>Nivel</th>
+                        <th>Año</th>
+                        <th class="text-center">Meses Solicitados</th>
+                        <th>Fecha Inicio</th>
+                        <th>Fecha Fin</th>
+                        <th>Observaciones Generales</th>
+                        <th>CDP Evaluador</th>
+                        <th>Aceptada por CDP</th>
+                        <th>Observaciones CDP</th>
+                        <th>Disposición Aprobación</th>
+                        <th>Fecha Notificación</th>
+                        <th class="pe-3 text-center">Acciones</th> </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for prorroga in prorrogas %}
+                    <tr>
+                        <td class="fw-bold ps-3 text-secondary">{{ prorroga.id }}</td>
+                        <td>{{ prorroga.usuario }}</td>
+                        <td>{{ prorroga.tipo_de_prorroga }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ prorroga.nro_expediente }}</span></td>
+                        <td>{{ prorroga.cdp_receptora }}</td>
+                        <td>{{ prorroga.fecha_envio_cdp }}</td>
+                        <td class="fw-semibold text-dark">{{ prorroga.residente_nombre }}</td>
+                        <td>{{ prorroga.dni }}</td>
+                        <td>{{ prorroga.region_sanitaria }}</td>
+                        <td>{{ prorroga.sede }}</td>
+                        <td>{{ prorroga.especialidad }}</td>
+                        <td>{{ prorroga.nivel_organizacion }}</td>
+                        <td>{{ prorroga.anio_residencia }}</td>
+                        <td class="text-center"><span class="badge bg-secondary-subtle text-secondary px-2 py-1">{{ prorroga.meses_solicitados }}</span></td>
+                        <td>{{ prorroga.fecha_inicio }}</td>
+                        <td>{{ prorroga.fecha_fin }}</td>
+                        <td><small class="text-muted">{{ prorroga.observaciones }}</small></td>
+                        <td>{{ prorroga.nombre_cdp_evaluadora }}</td>
+                        <td>
+                            {% if prorroga.avalada_cdp == 'SI' or prorroga.avalada_cdp == 'Aprobado' %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">Sí</span>
+                            {% elif prorroga.avalada_cdp == 'NO' or prorroga.avalada_cdp == 'Rechazado' %}
+                                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1">No</span>
+                            {% else %}
+                                <span class="badge bg-warning-subtle text-warning border border-warning-subtle px-2 py-1">{{ prorroga.avalada_cdp }}</span>
+                            {% endif %}
+                        </td>
+                        <td><small class="text-muted">{{ prorroga.observaciones_cdp }}</small></td>
+                        <td>{{ prorroga.pv_aprobacion }}</td>
+                        <td>{{ prorroga.fecha_notificacion }}</td>
+                        
+                        <td class="pe-3 text-center">
+                            <div class="d-flex gap-1 justify-content-center">
+                                <a href="/modulos/prorrogas/edit/{{ prorroga.id }}" class="btn btn-sm btn-outline-success">
+                                    Editar
+                                </a>
+                                <a href="/prorrogas/borrar/{{ prorroga.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Seguro que querés eliminar esta prórroga?');">
+                                    Borrar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% include 'footer.html' %}
