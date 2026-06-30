@@ -1,0 +1,80 @@
+{% include 'header.html' %}
+
+
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow-sm border-0" style="border-radius: 12px">
+            <div
+              class="card-header bg-primary text-white py-3"
+              style="border-radius: 12px 12px 0 0"
+            >
+              <h5 class="card-title mb-0">
+                <i class="bi bi-key-fill me-2"></i> Cambiar Contraseña
+              </h5>
+            </div>
+            <div class="card-body bg-light p-4">
+              <form method="POST" action="/cambiar_clave">
+                <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary"
+                    >Contraseña Actual</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="clave_actual"
+                    required
+                    style="border-radius: 8px"
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary"
+                    >Nueva Contraseña</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="nueva_clave"
+                    required
+                    style="border-radius: 8px"
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-bold text-secondary"
+                    >Confirmar Nueva Contraseña</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="confirmar_clave"
+                    required
+                    style="border-radius: 8px"
+                  />
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                  <a
+                    href="{{ url_for('index') }}"
+                    class="btn btn-light px-4 border"
+                    style="border-radius: 8px"
+                    >Cancelar</a
+                  >
+                  <button
+                    type="submit"
+                    class="btn btn-primary px-4 fw-bold"
+                    style="border-radius: 8px"
+                  >
+                    <i class="bi bi-shield-lock-fill me-1"></i> Actualizar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{% include 'footer.html' %}

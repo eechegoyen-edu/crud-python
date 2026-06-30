@@ -1,202 +1,511 @@
 {% include 'header.html' %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nueva Prórroga de Residencia</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .card {
-            border: none;
-            border-radius: 12px;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-        }
+      body {
+        background-color: #f8f9fa;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .card {
+        border: none;
+        border-radius: 12px;
+      }
+      .form-control:focus,
+      .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+      }
     </style>
-</head>
-<body>
-
-<div class="container mt-4 mb-5" style="max-width: 1000px;">
-    
-    <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+  </head>
+  <body>
+    <div class="container mt-4 mb-5" style="max-width: 1000px">
+      <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
         <div class="bg-primary text-white p-3 rounded-3 me-3 shadow-sm">
-            <i class="bi bi-plus-circle-fill fs-3"></i>
+          <i class="bi bi-plus-circle-fill fs-3"></i>
         </div>
         <div>
-            <h3 class="text-secondary fw-bold mb-0">Registrar Nueva Prórroga</h3>
-            <p class="text-muted small mb-0">Alta de solicitud de prórroga de residencia en el sistema administrativo</p>
+          <h3 class="text-secondary fw-bold mb-0">Registrar Nueva Prórroga</h3>
+          <p class="text-muted small mb-0">
+            Alta de solicitud de prórroga de residencia en el sistema
+            administrativo
+          </p>
         </div>
-    </div>
+      </div>
 
-    <form action="/modulos/prorrogas/guardar" method="POST">
+      <form action="/modulos/prorrogas/guardar" method="POST">
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px">
+          <div
+            class="card-header bg-primary text-white py-3"
+            style="border-radius: 12px 12px 0 0"
+          >
+            <h5 class="card-title mb-0">
+              <i class="bi bi-folder-fill me-2"></i> 1. Datos de Gestión y Envío
+            </h5>
+          </div>
+          <div class="card-body bg-light p-4">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label
+                  for="usuario"
+                  class="form-label fw-semibold text-secondary"
+                  >Usuario
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="usuario"
+                  name="usuario"
+                  value="{{ current_user.nombre }}"
+                  readonly
+                />
+              </div>
 
-        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
-            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
-                <h5 class="card-title mb-0"><i class="bi bi-folder-fill me-2"></i> 1. Datos de Gestión y Envío</h5>
-            </div>
-            <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Usuario Transcriptor</label>
-                        <input type="text" class="form-control" name="usuario" id="usuario" placeholder="Ej: admin" required style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Tipo de Prórroga</label>
-                        <input type="text" class="form-control" name="tipo_prorroga" id="tipo_prorroga" placeholder="Ej: Extraordinaria" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Nro. Expediente</label>
-                        <input type="text" class="form-control" name="nro_expediente" id="nro_expediente" placeholder="Ej: EX-2026-..." style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-8">
-                        <label class="form-label fw-bold text-secondary">Nombre CDP Receptora</label>
-                        <select class="form-select" name="referente" id="referente" required style="border-radius: 8px;">
-                            <option value="" disabled selected>Seleccione el referente...</option>
-                            {% for cdp in cdps %}
-                                <option value="{{ cdp.referente }}">{{ cdp.referente }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Fecha de Envío al CDP</label>
-                        <input type="date" class="form-control" name="fecha_envio_cdp" id="fecha_envio_cdp" style="border-radius: 8px;">
-                    </div>
-                </div>
-            </div>
-        </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Tipo de Prórroga</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="tipo_prorroga"
+                  id="tipo_prorroga"
+                  placeholder="Ej: Extraordinaria"
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Nro. Expediente</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nro_expediente"
+                  id="nro_expediente"
+                  placeholder="Ej: EX-2026-..."
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-8">
+                <label class="form-label fw-bold text-secondary"
+                  >Nombre CDP Receptora</label
+                >
+                <select
+                  class="form-select"
+                  name="referente"
+                  id="referente"
+                  required
+                  style="border-radius: 8px"
+                >
+                  <option value="" disabled selected>
+                    Seleccione el referente...
+                  </option>
+                  {% for cdp in cdps %}
+                  <option value="{{ cdp.referente }}">
+                    {{ cdp.referente }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
 
-        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
-            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
-                <h5 class="card-title mb-0"><i class="bi bi-person-vcard-fill me-2"></i> 2. Información del Residente</h5>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Fecha de Envío al CDP</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  name="fecha_envio_cdp"
+                  id="fecha_envio_cdp"
+                  style="border-radius: 8px"
+                />
+              </div>
             </div>
-            <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <label class="form-label fw-bold text-secondary">Apellido y Nombre del Residente</label>
-                        <input type="text" class="form-control" name="residente_nombre" id="residente_nombre" placeholder="Ej: Pérez, Juan" required style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">DNI</label>
-                        <input type="text" class="form-control" name="dni" id="dni" placeholder="Sin puntos" required style="border-radius: 8px;">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
-            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
-                <h5 class="card-title mb-0"><i class="bi bi-mortarboard-fill me-2"></i> 3. Estructura y Sede de Residencia</h5>
-            </div>
-            <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Región Sanitaria</label>
-                        <input type="text" class="form-control" name="region_sanitaria" id="region_sanitaria" placeholder="Ej: Región XI" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Sede de Residencia</label>
-                        <input type="text" class="form-control" id="sede" name="sede" placeholder="Hospital o Centro de salud" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Especialidad</label>
-                        <select class="form-select" name="especialidad" id="especialidad" required style="border-radius: 8px;">
-                            <option value="" disabled selected>Seleccione la especialidad...</option>
-                            {% for esp in especialidades %}
-                                <option value="{{ esp.especialidad }}">{{ esp.especialidad }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Nivel Organización</label>
-                        <input type="text" class="form-control" name="nivel_organizacion" id="nivel_organizacion" placeholder="Ej: Provincial" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Año de Residencia</label>
-                        <input type="text" class="form-control" name="anio_residencia" id="anio_residencia" placeholder="Ej: 2026" style="border-radius: 8px;">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
-            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
-                <h5 class="card-title mb-0"><i class="bi bi-calendar3 me-2"></i> 4. Tiempos y Fechas del Proceso</h5>
-            </div>
-            <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Meses Solicitados</label>
-                        <input type="number" class="form-control" name="meses_solicitados" id="meses_solicitados" placeholder="Cantidad en números" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Fecha Inicio</label>
-                        <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Fecha Fin</label>
-                        <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Nombre CDP Evaluadora</label>
-                        <input type="text" class="form-control" name="cdp_evaluadora" id="cdp_evaluadora" placeholder="CDP que evalúa" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Fecha Notificación</label>
-                        <input type="date" class="form-control" name="fecha_notificacion" id="fecha_notificacion" style="border-radius: 8px;">
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
 
-        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
-            <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
-                <h5 class="card-title mb-0"><i class="bi bi-clipboard-check-fill me-2"></i> 5. Dictamen Final y Observaciones</h5>
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px">
+          <div
+            class="card-header bg-primary text-white py-3"
+            style="border-radius: 12px 12px 0 0"
+          >
+            <h5 class="card-title mb-0">
+              <i class="bi bi-person-vcard-fill me-2"></i> 2. Información del
+              Residente
+            </h5>
+          </div>
+          <div class="card-body bg-light p-4">
+            <div class="row g-3">
+              <div class="col-md-8">
+                <label class="form-label fw-bold text-secondary"
+                  >Apellido y Nombre del Residente</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="residente_nombre"
+                  id="residente_nombre"
+                  placeholder="Ej: Pérez, Juan"
+                  required
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary">DNI</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="dni"
+                  id="dni"
+                  placeholder="Sin puntos"
+                  required
+                  style="border-radius: 8px"
+                />
+              </div>
             </div>
-            <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">¿Avalada por CDP?</label>
-                        <input type="text" class="form-control" name="avalada_cdp" id="avalada_cdp" placeholder="Ej: SI / NO" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Disposición/PV Aprobación</label>
-                        <input type="text" class="form-control" name="pv_aprobacion" id="pv_aprobacion" placeholder="Nro de acto administrativo" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Observaciones del CDP</label>
-                        <textarea class="form-control" name="observaciones_cdp" id="observaciones_cdp" rows="3" placeholder="Anotaciones de la comisión..." style="border-radius: 8px bridge;"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Observaciones Generales</label>
-                        <textarea class="form-control" name="observaciones" id="observaciones" rows="3" placeholder="Comentarios generales del registro..." style="border-radius: 8px;"></textarea>
-                    </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px">
+          <div
+            class="card-header bg-primary text-white py-3"
+            style="border-radius: 12px 12px 0 0"
+          >
+            <h5 class="card-title mb-0">
+              <i class="bi bi-mortarboard-fill me-2"></i> 3. Estructura y Sede
+              de Residencia
+            </h5>
+          </div>
+          <div class="card-body bg-light p-4">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="Región Sanitaria" class="form-label fw-bold"
+                  >Región Sanitaria:</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light"
+                    ><i class="bi bi-geo-alt-fill"></i
+                  ></span>
+                  <select
+                    class="form-select"
+                    id="sede"
+                    name="region_sanitaria"
+                    required
+                  >
+                    <option value="" selected disabled>
+                      Seleccione una Región
+                    </option>
+                    <option value="I">I</option>
+                    <option value="II">II</option>
+                    <option value="III">III</option>
+                    <option value="IV">IV</option>
+                    <option value="V">V</option>
+                    <option value="VI">VI</option>
+                    <option value="VII">VII</option>
+                    <option value="VIII">VIII</option>
+                    <option value="IX">IX</option>
+                    <option value="X">X</option>
+                    <option value="XI">XI</option>
+                    <option value="XII">XII</option>
+                  </select>
                 </div>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Sede de Residencia</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sede"
+                  name="sede"
+                  value="{{ current_user.sede }}"
+                  readonly
+                  placeholder="Hospital o Centro de salud"
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Especialidad</label
+                >
+                <select
+                  class="form-select"
+                  name="especialidad"
+                  id="especialidad"
+                  required
+                  style="border-radius: 8px"
+                >
+                  <option value="" disabled selected>
+                    Seleccione la especialidad...
+                  </option>
+                  {% for esp in especialidades %}
+                  <option value="{{ esp.especialidad }}">
+                    {{ esp.especialidad }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="aceptada" class="form-label fw-bold"
+                  >Nivel académico:</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light"
+                    ><i class="bi bi-geo-alt-fill"></i
+                  ></span>
+                  <select
+                    class="form-select"
+                    id="nivel_academico"
+                    name="nivel_academico"
+                    required
+                  >
+                    <option value="" selected disabled>
+                      Seleccione alternativa
+                    </option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="aceptada" class="form-label fw-bold"
+                  >Nivel (Básica/Post-básica):</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light"
+                    ><i class="bi bi-geo-alt-fill"></i
+                  ></span>
+                  <select class="form-select" id="nivel" name="nivel" required>
+                    <option value="" selected disabled>
+                      Seleccione el nivel académico
+                    </option>
+                    <option value="Básica">Básica</option>
+                    <option value="Post-Básica">Post-Básica</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Año de Residencia</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="anio_residencia"
+                  id="anio_residencia"
+                  placeholder="Ej: 2026"
+                  style="border-radius: 8px"
+                />
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px">
+          <div
+            class="card-header bg-primary text-white py-3"
+            style="border-radius: 12px 12px 0 0"
+          >
+            <h5 class="card-title mb-0">
+              <i class="bi bi-calendar3 me-2"></i> 4. Tiempos y Fechas del
+              Proceso
+            </h5>
+          </div>
+          <div class="card-body bg-light p-4">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Meses Solicitados</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="meses_solicitados"
+                  id="meses_solicitados"
+                  placeholder="Cantidad en números"
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Fecha Inicio</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  name="fecha_inicio"
+                  id="fecha_inicio"
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Fecha Fin</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  name="fecha_fin"
+                  id="fecha_fin"
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-8">
+                <label
+                  for="cdp_evaluadora"
+                  class="form-label fw-semibold text-secondary"
+                  >CDP Evualuador</label
+                >
+                <select
+                  class="form-select"
+                  id="cdp_evaluadora"
+                  name="cdp_evaluadora"
+                  required
+                >
+                  <option value="" disabled selected>
+                    Seleccione el CDP Evaluador...
+                  </option>
+                  {% for cdp in cdps %}
+                  <option value="{{ cdp.referente }}">
+                    {{ cdp.referente }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Fecha Notificación</label
+                >
+                <input
+                  type="date"
+                  class="form-control"
+                  name="fecha_notificacion"
+                  id="fecha_notificacion"
+                  style="border-radius: 8px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px">
+          <div
+            class="card-header bg-primary text-white py-3"
+            style="border-radius: 12px 12px 0 0"
+          >
+            <h5 class="card-title mb-0">
+              <i class="bi bi-clipboard-check-fill me-2"></i> 5. Dictamen Final
+              y Observaciones
+            </h5>
+          </div>
+          <div class="card-body bg-light p-4">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="aceptada" class="form-label fw-bold"
+                  >Aceptada por CDP:</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-light"
+                    ><i class="bi bi-geo-alt-fill"></i
+                  ></span>
+                  <select
+                    class="form-select"
+                    id="aceptada_cdp"
+                    name="aceptada_cdp"
+                    required
+                  >
+                    <option value="" selected disabled>
+                      Seleccione alternativa
+                    </option>
+                    <option value="SI">SI</option>
+                    <option value="NO">NO</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold text-secondary"
+                  >Disposición/PV Aprobación</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="pv_aprobacion"
+                  id="pv_aprobacion"
+                  placeholder="Nro de acto administrativo"
+                  style="border-radius: 8px"
+                />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold text-secondary"
+                  >Observaciones del CDP</label
+                >
+                <textarea
+                  class="form-control"
+                  name="observaciones_cdp"
+                  id="observaciones_cdp"
+                  rows="3"
+                  placeholder="Anotaciones de la comisión..."
+                  style="border-radius: 8px bridge"
+                ></textarea>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold text-secondary"
+                  >Observaciones Generales</label
+                >
+                <textarea
+                  class="form-control"
+                  name="observaciones"
+                  id="observaciones"
+                  rows="3"
+                  placeholder="Comentarios generales del registro..."
+                  style="border-radius: 8px"
+                ></textarea>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="d-flex justify-content-end gap-2 mt-4 mb-5">
-            <a href="/prorrogas" class="btn btn-light px-4 border" style="border-radius: 8px;">
-                <i class="bi bi-x-circle me-1"></i> Cancelar
-            </a>
-            <button type="submit" class="btn btn-success px-5 fw-bold text-white" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                <i class="bi bi-plus-circle me-1"></i> Crear Registro
-            </button>
+          <a
+            href="/prorrogas"
+            class="btn btn-light px-4 border"
+            style="border-radius: 8px"
+          >
+            <i class="bi bi-x-circle me-1"></i> Cancelar
+          </a>
+          <button
+            type="submit"
+            class="btn btn-success px-5 fw-bold text-white"
+            style="
+              border-radius: 8px;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            "
+          >
+            <i class="bi bi-plus-circle me-1"></i> Crear Registro
+          </button>
         </div>
+      </form>
+    </div>
 
-    </form>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
 
 {% include 'footer.html' %}

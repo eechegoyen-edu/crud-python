@@ -52,30 +52,30 @@
             <h5 class="form-section-title"><i class="bi bi-folder-fill me-2"></i>1. Datos de Gestión y Envío</h5>
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label for="usuario" class="form-label fw-semibold text-secondary">Usuario Transcriptor</label>
-                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Ej: v_echegoyen" required>
+                    <label for="usuario" class="form-label fw-bold text-black">Usuario </label>
+                    <input type="text" class="form-control" id="usuario" name="usuario" value="{{ current_user.nombre }}" readonly>
                 </div>
                 <div class="col-md-4">
-                    <label for="tipo_de_reevaluacion" class="form-label fw-semibold text-secondary">Tipo de Reevaluación</label>
+                    <label for="tipo_de_reevaluacion" class="form-label fw-bold text-black">Tipo de Reevaluación</label>
                     <input type="text" class="form-control" id="tipo_de_reevaluacion" name="tipo_de_reevaluacion" placeholder="Ej: Anual / Extraordinaria">
                 </div>
                 <div class="col-md-4">
-                    <label for="expediente" class="form-label fw-semibold text-secondary">Nro. Expediente</label>
+                    <label for="expediente" class="form-label fw-bold text-black">Nro. Expediente</label>
                     <input type="text" class="form-control" id="expediente" name="expediente" placeholder="Ej: 0000-XXXXXX">
                 </div>
                 <div class="col-md-8">
-                    <label for="referente" class="form-label fw-semibold text-secondary">Nombre Referente</label>
+                    <label for="referente" class="form-label fw-bold text-black">Nombre Referente</label>
                     <select class="form-select" id="referente" name="referente" required>
                         <option value="" disabled selected>Seleccione el referente...</option>
                     {% for cdp in cdps %}
                     <option value="{{ cdp.referente }}">{{ cdp.referente }}</option>
                     {% endfor %}
-                    
+       
                     
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="fecha_envio_cdp" class="form-label fw-semibold text-secondary">Fecha de Envío al CDP</label>
+                    <label for="fecha_envio_cdp" class="form-label fw-bold text-black">Fecha de Envío al CDP</label>
                     <input type="date" class="form-control" id="fecha_envio_cdp" name="fecha_envio_cdp">
                 </div>
             </div>
@@ -84,11 +84,11 @@
             <h5 class="form-section-title"><i class="bi bi-person-vcard-fill me-2"></i>2. Información del Residente</h5>
             <div class="row g-3">
                 <div class="col-md-8">
-                    <label for="apellido_nombre_residente" class="form-label fw-semibold text-secondary">Apellido y Nombre</label>
+                    <label for="apellido_nombre_residente" class="form-label fw-bold text-black">Apellido y Nombre</label>
                     <input type="text" class="form-control" id="apellido_nombre_residente" name="apellido_nombre_residente" placeholder="Ej: Pérez, Juan" required>
                 </div>
                 <div class="col-md-4">
-                    <label for="dni" class="form-label fw-semibold text-secondary">DNI</label>
+                    <label for="dni" class="form-label fw-bold text-black">DNI</label>
                     <input type="text" class="form-control" id="dni" name="dni" placeholder="Sin puntos" required>
                 </div>
             </div>
@@ -97,15 +97,32 @@
             <h5 class="form-section-title"><i class="bi bi-mortarboard-fill me-2"></i>3. Estructura y Sede de Residencia</h5>
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label for="region_sanitaria" class="form-label fw-semibold text-secondary">Región Sanitaria</label>
-                    <input type="text" class="form-control" id="region_sanitaria" name="region_sanitaria" placeholder="Ej: Región XI">
+                <label for="Región Sanitaria" class="form-label fw-bold text-black">Región Sanitaria:</label>
+           <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+                <select class="form-select" id="sede" name="region_sanitaria" required>
+                <option value="" selected disabled>Seleccione una Región</option>
+                <option value="I">I</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+                <option value="VI">VI</option>
+                <option value="VII">VII</option>
+                <option value="VIII">VIII</option>
+                <option value="IX">IX</option>
+                <option value="X">X</option>
+                <option value="XI">XI</option>
+                <option value="XII">XII</option>
+                </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                    <label for="sede" class="form-label fw-bold text-black">Sede</label>
+                    <input type="text" class="form-control" id="sede" name="sede" value="{{ current_user.sede }}" readonly>
                 </div>
                 <div class="col-md-4">
-                    <label for="sede_de_residencia" class="form-label fw-semibold text-secondary">Sede de Residencia</label>
-                    <input type="text" class="form-control" id="sede_de_residencia" name="sede_de_residencia" placeholder="Ej: Hospital San Martín">
-                </div>
-                <div class="col-md-4">
-                    <label for="especialidad" class="form-label fw-semibold text-secondary">Especialidad</label>
+                    <label for="especialidad" class="form-label fw-bold text-black">Especialidad</label>
                     <select class="form-select" id="especialidad" name="especialidad" required>
                         <option value="" disabled selected>Seleccione la especialidad...</option>
                         {% for esp in especialidades %}
@@ -114,15 +131,35 @@
                     </select>
                 </div>
                 <div class="col-md-4">
-                    <label for="nivel" class="form-label fw-semibold text-secondary">Nivel Académico</label>
-                    <input type="text" class="form-control" id="nivel" name="nivel" placeholder="Ej: Año 1, Año 2">
+                <label for="aceptada" class="form-label fw-bold text-black">Nivel Académico:</label>
+                <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+                <select class="form-select" id="nivel_academico" name="nivel_academico" required>
+                <option value="" selected disabled>Seleccione el nivel</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                </select>
+                </div>
+               </div>
+                <div class="col-md-4">
+                <label for="aceptada" class="form-label fw-bold text-black">Nivel (Básica/Post-básica):</label>
+                <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+                <select class="form-select" id="nivel" name="nivel" required>
+                <option value="" selected disabled>Seleccione el nivel académico</option>
+                <option value="Básica">Básica</option>
+                <option value="Post-Básica">Post-Básica</option>
+                </select>
+                </div>
+               </div>
+                <div class="col-md-4">
+                    <label for="anio_residencia" class="form-label fw-bold text-black">Año Calendario Residencia</label>
+                    <input type="number" class="form-control" id="anio_residencia" name="anio_residencia" placeholder="Ej: 2026">
                 </div>
                 <div class="col-md-4">
-                    <label for="ano_residencia" class="form-label fw-semibold text-secondary">Año Calendario Residencia</label>
-                    <input type="number" class="form-control" id="ano_residencia" name="ano_residencia" placeholder="Ej: 2026">
-                </div>
-                <div class="col-md-4">
-                    <label for="sede_reevaluacion" class="form-label fw-semibold text-secondary">Sede de Reevaluación</label>
+                    <label for="sede_reevaluacion" class="form-label fw-bold text-black">Sede de Reevaluación</label>
                     <input type="text" class="form-control" id="sede_reevaluacion" name="sede_reevaluacion" placeholder="Lugar donde reevalúa">
                 </div>
             </div>
@@ -131,48 +168,67 @@
             <h5 class="form-section-title"><i class="bi bi-calendar3 me-2"></i>4. Tiempos y Fechas del Proceso</h5>
             <div class="row g-3">
                 <div class="col-md-4">
-                    <label for="tiempo_solicitado_reevaluacion_meses" class="form-label fw-semibold text-secondary">Tiempo Solicitado (Meses)</label>
+                    <label for="tiempo_solicitado_reevaluacion_meses" class="form-label fw-bold text-black">Tiempo Solicitado (Meses)</label>
                     <input type="number" class="form-control" id="tiempo_solicitado_reevaluacion_meses" name="tiempo_solicitado_reevaluacion_meses" placeholder="Cantidad en números">
                 </div>
                 <div class="col-md-4">
-                    <label for="fecha_inicio_reevaluacion" class="form-label fw-semibold text-secondary">Fecha Inicio Reevaluación</label>
+                    <label for="fecha_inicio_reevaluacion" class="form-label fw-bold text-black">Fecha Inicio Reevaluación</label>
                     <input type="date" class="form-control" id="fecha_inicio_reevaluacion" name="fecha_inicio_reevaluacion">
                 </div>
                 <div class="col-md-4">
-                    <label for="fecha_finalizacion_reevaluacion" class="form-label fw-semibold text-secondary">Fecha Fin Reevaluación</label>
+                    <label for="fecha_finalizacion_reevaluacion" class="form-label fw-bold text-black">Fecha Fin Reevaluación</label>
                     <input type="date" class="form-control" id="fecha_finalizacion_reevaluacion" name="fecha_finalizacion_reevaluacion">
                 </div>
-                <div class="col-md-6">
-                    <label for="incluye_extension_peri_de_residencia" class="form-label fw-semibold text-secondary">¿Incluye Extensión Periodo de Residencia?</label>
-                    <input type="text" class="form-control" id="incluye_extension_peri_de_residencia" name="incluye_extension_peri_de_residencia" placeholder="Ej: Si / No / Prórroga">
+                 <div class="col-md-4">
+                <label for="aceptada" class="form-label fw-bold text-black">Incluye extensión periodo de residencia:</label>
+                <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+                <select class="form-select" id="incluye_extension_peri_de_residencia" name="incluye_extension_peri_de_residencia" required>
+                <option value="" selected disabled>Seleccione alternativa</option>
+                <option value="SI">SI</option>
+                <option value="NO">NO</option>
+                </select>
                 </div>
-                <div class="col-md-6">
-                    <label for="nombre_cdp_evaluador" class="form-label fw-semibold text-secondary">Nombre del CDP Evaluador</label>
-                    <input type="text" class="form-control" id="nombre_cdp_evaluador" name="nombre_cdp_evaluador" placeholder="Centro evaluador">
                 </div>
-            </div>
-
-
+                <div class="col-md-8">
+                    <label for="cdp_evaluadora" class="form-label fw-bold text-black">CDP Evualuador</label>
+                    <select class="form-select" id="cdp_evaluadora" name="cdp_evaluadora" required>
+                        <option value="" disabled selected>Seleccione el CDP Evaluador...</option>
+                    {% for cdp in cdps %}
+                    <option value="{{ cdp.referente }}">{{ cdp.referente }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+     
             <h5 class="form-section-title"><i class="bi bi-clipboard-check-fill me-2"></i>5. Dictamen Final y Observaciones</h5>
             <div class="row g-3">
+
                 <div class="col-md-4">
-                    <label for="aceptada_por_cdp" class="form-label fw-semibold text-secondary">¿Aceptada por CDP?</label>
-                    <input type="text" class="form-control" id="aceptada_por_cdp" name="aceptada_por_cdp" placeholder="Ej: Aprobada / Rechazada">
+                <label for="aceptada" class="form-label fw-bold text-black">Aceptada por CDP:</label>
+                <div class="input-group">
+                <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+                <select class="form-select" id="aceptada_cdp" name="aceptada_cdp" required>
+                <option value="" selected disabled>Seleccione alternativa</option>
+                <option value="SI">SI</option>
+                <option value="NO">NO</option>
+
+                </select>
+                </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="disposicion_de_aprobacion" class="form-label fw-semibold text-secondary">Disposición de Aprobación</label>
+                    <label for="disposicion_de_aprobacion" class="form-label fw-bold text-black">Disposición de Aprobación</label>
                     <input type="text" class="form-control" id="disposicion_de_aprobacion" name="disposicion_de_aprobacion" placeholder="Nro de Disposición/Resolución">
                 </div>
                 <div class="col-md-4">
-                    <label for="resultado_reevaluacion" class="form-label fw-semibold text-secondary">Resultado Reevaluación</label>
+                    <label for="resultado_reevaluacion" class="form-label fw-bold text-black">Resultado Reevaluación</label>
                     <input type="text" class="form-control" id="resultado_reevaluacion" name="resultado_reevaluacion" placeholder="Resultado final">
                 </div>
                 <div class="col-md-6">
-                    <label for="observaciones_cdp" class="form-label fw-semibold text-secondary">Observaciones del CDP</label>
+                    <label for="observaciones_cdp" class="form-label fw-bold text-black">Observaciones del CDP</label>
                     <textarea class="form-control" id="observaciones_cdp" name="observaciones_cdp" rows="3" placeholder="Detalles o aclaraciones técnicas del Centro..."></textarea>
                 </div>
                 <div class="col-md-6">
-                    <label for="observaciones" class="form-label fw-semibold text-secondary">Observaciones Generales</label>
+                    <label for="observaciones" class="form-label fw-bold text-black">Observaciones Generales</label>
                     <textarea class="form-control" id="observaciones" name="observaciones" rows="3" placeholder="Comentarios generales sobre el trámite..."></textarea>
                 </div>
             </div>

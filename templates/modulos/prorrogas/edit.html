@@ -52,36 +52,37 @@
                 <h5 class="card-title mb-0"><i class="bi bi-folder-fill me-2"></i> 1. Datos de Gestión y Envío</h5>
             </div>
             <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Usuario Transcriptor</label>
-                        <input type="text" class="form-control" name="usuario" id="usuario" value="{{ prorroga.usuario }}" style="border-radius: 8px;">
+             <div class="row g-3">
+               <div class="col-md-4">
+                  <label class="form-label fw-bold text-secondary">Usuario </label>
+                  <input type="text" class="form-control" name="usuario" id="usuario" value="{{ current_user.nombre }}" style="border-radius: 8px;"  readonly>
+                </div>
+                  <div class="col-md-4">
+                     <label class="form-label fw-bold text-secondary">Tipo de Prórroga</label>
+                     <input type="text" class="form-control" name="tipo_prorroga" id="tipo_prorroga" value="{{ prorroga.tipo_prorroga }}" style="border-radius: 8px;">
+                  </div>
+                  <div class="col-md-4">
+                     <label class="form-label fw-bold text-secondary">Nro. Expediente</label>
+                     <input type="text" class="form-control" name="nro_expediente" id="nro_expediente" value="{{ prorroga.nro_expediente }}" style="border-radius: 8px;">
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Tipo de Prórroga</label>
-                        <input type="text" class="form-control" name="tipo_prorroga" id="tipo_prorroga" value="{{ prorroga.tipo_prorroga }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Nro. Expediente</label>
-                        <input type="text" class="form-control" name="nro_expediente" id="nro_expediente" value="{{ prorroga.nro_expediente }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-8">
-                        <label class="form-label fw-bold text-secondary">Nombre CDP Receptora</label>
-                        <select class="form-select" name="cdp_receptora" id="cdp_receptora" required style="border-radius: 8px;">
-                            <option value="" disabled>Seleccione el referente...</option>
-                            {% for cdp in cdps %}
-                                <option value="{{ cdp.referente }}" {% if cdp.referente == prorroga.cdp_receptora %}selected{% endif %}>{{ cdp.referente }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4">
+                     <div class="col-md-6">
+                     <label class="form-label fw-bold text-secondary">Nombre CDP Receptora</label>
+                     <select class="form-select" name="referente" id="referente" required style="border-radius: 8px;">
+                     <option value="" disabled>Seleccione el referente...</option>
+                     {% for cdp in cdps %}
+                     <option value="{{ cdp.referente }}" {% if cdp.referente == prorroga.referente %}selected{% endif %}>
+                      {{ cdp.referente }}</option>
+                     {% endfor %}
+                     </select>
+                     </div>
+                   <div class="col-md-4">
                         <label class="form-label fw-bold text-secondary">Fecha de Envío al CDP</label>
                         <input type="date" class="form-control" name="fecha_envio_cdp" id="fecha_envio_cdp" value="{{ prorroga.fecha_envio_cdp }}" style="border-radius: 8px;">
                     </div>
                 </div>
             </div>
         </div>
-
+    
         <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
             <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
                 <h5 class="card-title mb-0"><i class="bi bi-person-vcard-fill me-2"></i> 2. Información del Residente</h5>
@@ -105,36 +106,71 @@
                 <h5 class="card-title mb-0"><i class="bi bi-mortarboard-fill me-2"></i> 3. Estructura y Sede de Residencia</h5>
             </div>
             <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Región Sanitaria</label>
-                        <input type="text" class="form-control" name="region_sanitaria" id="region_sanitaria" value="{{ prorroga.region_sanitaria }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Sede de Residencia</label>
-                        <input type="text" class="form-control" id="sede" name="sede" value="{{ prorroga.sede }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Especialidad</label>
-                        <select class="form-select" name="especialidad" id="especialidad" required style="border-radius: 8px;">
-                            <option value="" disabled>Seleccione la especialidad...</option>
-                            {% for esp in especialidades %}
-                                <option value="{{ esp[0] }}" {% if esp[0] == prorroga.especialidad %}selected{% endif %}>{{ esp.especialidad }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Nivel Organización</label>
-                        <input type="text" class="form-control" name="nivel_organizacion" id="nivel_organizacion" value="{{ prorroga.nivel_organizacion }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label fw-bold text-secondary">Año de Residencia</label>
-                        <input type="text" class="form-control" name="anio_residencia" id="anio_residencia" value="{{ prorroga.anio_residencia }}" style="border-radius: 8px;">
-                    </div>
+         <div class="row g-3">
+         <div class="col-md-4">
+        <label for="region_sanitaria" class="form-label fw-bold">Región Sanitaria:</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+           <select class="form-select" id="region_sanitaria" name="region_sanitaria" required>
+            <option value="I"    {% if prorroga.region_sanitaria == 'I' %}   selected{% endif %}>I</option>
+            <option value="II"   {% if prorroga.region_sanitaria == 'II' %}  selected{% endif %}>II</option>
+            <option value="III"  {% if prorroga.region_sanitaria == 'III' %} selected{% endif %}>III</option>
+            <option value="IV"   {% if prorroga.region_sanitaria == 'IV' %}  selected{% endif %}>IV</option>
+            <option value="V"    {% if prorroga.region_sanitaria == 'V' %}   selected{% endif %}>V</option>
+            <option value="VI"   {% if prorroga.region_sanitaria == 'VI' %}  selected{% endif %}>VI</option>
+            <option value="VII"  {% if prorroga.region_sanitaria == 'VII' %} selected{% endif %}>VII</option>
+            <option value="VIII" {% if prorroga.region_sanitaria == 'VIII' %}selected{% endif %}>VIII</option>
+            <option value="IX"   {% if prorroga.region_sanitaria == 'IX' %}  selected{% endif %}>IX</option>
+            <option value="X"    {% if prorroga.region_sanitaria == 'X' %}   selected{% endif %}>X</option>
+            <option value="XI"   {% if prorroga.region_sanitaria == 'XI' %}  selected{% endif %}>XI</option>
+            <option value="XII"  {% if prorroga.region_sanitaria == 'XII' %} selected{% endif %}>XII</option>
+        </select>
+       </div>
+       </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold text-secondary">Sede de Residencia</label>
+            <input type="text" class="form-control" id="sede" name="sede" value="{{ prorroga.sede }}" style="border-radius: 8px;">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label fw-bold text-secondary">Especialidad</label>
+            <select class="form-select" name="especialidad" id="especialidad" required style="border-radius: 8px;">
+                <option value="" disabled>Seleccione la especialidad...</option>
+                {% for esp in especialidades %}
+                    <option value="{{ esp[0] }}" {% if esp[0] == prorroga.especialidad %}selected{% endif %}>{{ esp.especialidad }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    <div class="col-md-3">
+        <label for="nivel" class="form-label fw-bold">Nivel (Básica, Post-Básica):</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+          <select class="form-select" id="nivel" name="nivel" required>
+            <option value="Básica"      {% if prorroga.nivel == 'Básica'      %}  selected{% endif %}>Básica</option>
+            <option value="Post-básica" {% if prorroga.nivel == 'Post-básica' %}  selected{% endif %}>Post-básica</option>
+          </select>
+        </div>
+      <div class="col-md-2">
+        <label for="nivel_academico" class="form-label fw-bold">Nivel académico:</label>
+        <div class="input-group">
+          <span class="input-group-text bg-light"><i class="bi bi-geo-alt-fill"></i></span>
+          <select class="form-select" id="nivel_academico" name="nivel_academico" required>
+            <option value="1" {% if prorroga.nivel_academico == '1' %}  selected{% endif %}>1</option>
+            <option value="2" {% if prorroga.nivel_academico == '2' %}  selected{% endif %}>2</option>
+            <option value="3" {% if prorroga.nivel_academico == '3' %}  selected{% endif %}>3</option>
+            <option value="4" {% if prorroga.nivel_academico == '4' %}  selected{% endif %}>4</option>
+          </select>
+        </div>
+      </div>
+                             
+         <div class="col-md-4">
+                 <label for="anio_residencia" class="form-label fw-bold">Año de Residencia</label>
+                  <input type="text" class="form-control" name="anio_residencia" id="anio_residencia" 
+                  value="{{ prorroga.anio_residencia }}" style="border-radius: 8px;">
+                 </div>
                 </div>
             </div>
-        </div>
-
+        
+     
         <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
             <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
                 <h5 class="card-title mb-0"><i class="bi bi-calendar3 me-2"></i> 4. Tiempos y Fechas del Proceso</h5>
@@ -155,7 +191,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold text-secondary">Nombre CDP Evaluadora</label>
-                        <input type="text" class="form-control" name="nombre_cdp_evaluadora" id="nombre_cdp_evaluadora" value="{{ prorroga.nombre_cdp_evaluadora }}" style="border-radius: 8px;">
+                        <input type="text" class="form-control" name="cdp_evaluadora" id="cdp_evaluadora" value="{{ prorroga.cdp_evaluadora }}" style="border-radius: 8px;">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fw-bold text-secondary">Fecha Notificación</label>
@@ -164,32 +200,59 @@
                 </div>
             </div>
         </div>
-
-        <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
+                <div class="card shadow-sm mb-4 border-0" style="border-radius: 12px;">
             <div class="card-header bg-primary text-white py-3" style="border-radius: 12px 12px 0 0;">
                 <h5 class="card-title mb-0"><i class="bi bi-clipboard-check-fill me-2"></i> 5. Dictamen Final y Observaciones</h5>
             </div>
             <div class="card-body bg-light p-4">
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">¿Avalada por CDP?</label>
-                        <input type="text" class="form-control" name="avalada_cdp" id="avalada_cdp" value="{{ prorroga.avalada_cdp }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Disposición/PV Aprobación</label>
-                        <input type="text" class="form-control" name="pv_aprobacion" id="pv_aprobacion" value="{{ prorroga.pv_aprobacion }}" style="border-radius: 8px;">
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Observaciones del CDP</label>
-                        <textarea class="form-control" name="observaciones_cdp" id="observaciones_cdp" rows="3" style="border-radius: 8px;">{{ prorroga.observaciones_cdp }}</textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-bold text-secondary">Observaciones Generales</label>
-                        <textarea class="form-control" name="observaciones" id="observaciones" rows="3" style="border-radius: 8px;">{{ prorroga.observaciones }}</textarea>
-                    </div>
-                </div>
-            </div>
+   <div class="row g-3 mb-3">
+    
+    <div class="col-md-6">
+        <label for="aceptada_cdp" class="form-label fw-bold">Aceptada por CDP:</label>
+        <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-shield-check"></i></span>
+            <select class="form-select" id="aceptada_cdp" name="aceptada_cdp" required>
+                <option value="" selected disabled>Seleccione alternativa</option>
+               <option value="SI"   {% if prorroga.aceptada_cdp == 'SI' %}  selected{% endif %}>SI</option>
+               <option value="NO"   {% if prorroga.aceptada_cdp == 'NO' %}  selected{% endif %}>NO</option>
+            </select>
         </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="disposicion_pv" class="form-label fw-bold">Disposición / PV:</label>
+        <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-file-earmark-text"></i></span>
+              <input type="text" class="form-control" name="pv_aprobacion" id="pv_aprobacion" 
+                        value="{{ prorroga.pv_aprobacion }}" style="border-radius: 8px;">
+        </div>
+    </div>
+   </div>
+
+   
+<div class="row g-3 mb-3">
+    
+    <div class="col-md-6">
+        <label for="aceptada_cdp" class="form-label fw-bold">Observaciones del CDP:</label>
+          <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-file-earmark-text"></i></span>
+               <textarea class="form-control" name="observaciones_cdp" id="observaciones_cdp" rows="3" 
+               style="border-radius: 8px;">{{ prorroga.observaciones_cdp }}</textarea>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="disposicion_pv" class="form-label fw-bold">Observaciones:</label>
+        <div class="input-group">
+            <span class="input-group-text bg-light"><i class="bi bi-file-earmark-text"></i></span>
+            <textarea class="form-control" name="observaciones" id="observaciones" rows="3" 
+                style="border-radius: 8px;">{{ prorroga.observaciones }}</textarea>
+        </div>
+    </div>
+
+</div>
+
+
 
         <div class="d-flex justify-content-end gap-2 mt-4 mb-5">
             <a href="/prorrogas" class="btn btn-light px-4 border" style="border-radius: 8px;">
